@@ -1,31 +1,23 @@
-name: Hanafuda-JS-Bot
-
+name: Hana-Free-Bot
 on:
   schedule:
-    - cron: '0 */4 * * *'
+    - cron: '0 */6 * * *'
   workflow_dispatch:
-
 jobs:
-  build:
+  run:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3 # To jest ta poprawna nazwa
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
           node-version: '18'
-
-      - name: Install All Dependencies
-        run: |
-          npm install web3@1.8.0 axios chalk@4 colors fs node-fetch@2
-
-      - name: Inject Secret and Run
+      - name: Install Axios
+        run: npm install axios
+      - name: Run
         env:
           MY_TOKEN: ${{ secrets.HANA_TOKEN }}
         run: |
           echo "$MY_TOKEN" > private_keys.txt
-          # Wysyłamy "1" (liczba transakcji), a potem w nowej linii "y" (potwierdzenie kwoty)
-          printf "1\ny\n" | node index.js 
-          rm private_keys.txt
+          node index.js
