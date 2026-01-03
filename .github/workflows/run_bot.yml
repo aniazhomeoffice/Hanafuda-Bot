@@ -13,13 +13,18 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/node@v3
         with:
           node-version: '18'
 
-      - name: Install All Dependencies
+      - name: Install Dependencies
         run: |
-          npm install web3@1.8.0 axios chalk@4 colors fs readline-sync node-fetch@2 dotenv cloudflare-bypasser crypto-js
+          npm install web3@1.8.0 axios chalk@4 colors fs node-fetch@2
 
-      - name: Run Bot
-        run: node index.js
+      - name: Inject Secret and Run
+        env:
+          MY_TOKEN: ${{ secrets.HANA_TOKEN }}
+        run: |
+          echo "$MY_TOKEN" > private_keys.txt
+          node index.js
+          rm private_keys.txt # Kasuje plik zaraz po zakończeniu, dla bezpieczeństwa
