@@ -1,26 +1,25 @@
-name: Hanafuda Auto Bot
+name: Hanafuda-Auto-Collector
 
 on:
   schedule:
-    - cron: '0 */6 * * *' # Uruchamiaj co 6 godzin
-  workflow_dispatch: # Pozwala uruchomić ręcznie
+    - cron: '0 */4 * * *' # Bot uruchomi się co 4 godziny
+  workflow_dispatch:      # Pozwala Ci uruchomić go ręcznie
 
 jobs:
-  build:
+  run-bot:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: ambassadors/setup-python@v2
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.10'
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+      - name: Install Dependencies
+        run: |
+          pip install requests colorama
 
-      - name: Run bot
-        env:
-          MY_TOKEN: ${{ secrets.HANA_TOKEN }}
+      - name: Execute Bot
         run: python bot.py
