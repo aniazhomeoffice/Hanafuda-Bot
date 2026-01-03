@@ -18,7 +18,8 @@ jobs:
           node-version: '18'
 
       - name: Install Dependencies
-        run: npm install || echo "No npm install needed"
+        run: |
+          npm install web3 axios colors fs readline-sync # Instalujemy wszystkie potrzebne moduły
 
       - name: Run Bot
         run: node index.js
