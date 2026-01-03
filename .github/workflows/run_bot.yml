@@ -17,16 +17,22 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install All Possible Dependencies
+      - name: Install Dependencies
         run: |
-          pip install requests colorama cloudscraper requests-toolbelt
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install requests colorama cloudscraper
+          # Szukamy requirements.txt wszędzie i instalujemy
+          find . -name "requirements.txt" -exec pip install -r {} +
 
       - name: Create data.txt
-        run: echo "${{ secrets.HANA_TOKEN }}" > data.txt
+        run: |
+          # Tworzymy data.txt w każdym możliwym folderze, żeby bot go widział
+          echo "${{ secrets.HANA_TOKEN }}" > data.txt
+          find . -type d -exec cp data.txt {}/data.txt \;
 
       - name: Execute Bot
         run: |
-          # Ten bot od LinuxDil ma plik startowy o nazwie bot.py
-          # Uruchamiamy go bezpośrednio
-          python bot.py
+          # Szukamy głównego pliku .py (największy plik py zazwyczaj jest tym właściwym)
+          TARGET_FILE=$(find . -name "*.py" ! -name "setup.py" | xargs du | sort -n | tail -1 | cut -f2)
+          TARGET_DIR=$(dirname "$TARGET_FILE")
+          echo "Wchodzę do folderu: $TARGET_DIR i uruchamiam: $(basename "$TARGET_FILE")"
+          cd "$TARGET_DIR" && python $(basename "$TARGET_FILE")
