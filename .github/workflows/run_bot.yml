@@ -13,11 +13,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/node@v3
+        uses: actions/setup-node@v3 # To jest ta poprawna nazwa
         with:
           node-version: '18'
 
-      - name: Install Dependencies
+      - name: Install All Dependencies
         run: |
           npm install web3@1.8.0 axios chalk@4 colors fs node-fetch@2
 
@@ -27,4 +27,4 @@ jobs:
         run: |
           echo "$MY_TOKEN" > private_keys.txt
           node index.js
-          rm private_keys.txt # Kasuje plik zaraz po zakończeniu, dla bezpieczeństwa
+          rm private_keys.txt
