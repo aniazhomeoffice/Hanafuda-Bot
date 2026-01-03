@@ -17,16 +17,16 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install Dependencies
+      - name: Install All Possible Dependencies
         run: |
-          pip install requests colorama cloudscraper # Dodałem cloudscraper, często wymagany
+          pip install requests colorama cloudscraper requests-toolbelt
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Create data.txt
         run: echo "${{ secrets.HANA_TOKEN }}" > data.txt
 
       - name: Execute Bot
         run: |
-          # Szukamy pliku .py który zawiera logikę (pomijamy pliki konfiguracyjne)
-          MAIN_FILE=$(grep -l "import" *.py | head -n 1 || find . -name "main.py" || find . -name "index.py")
-          echo "Uruchamiam plik: $MAIN_FILE"
-          python "$MAIN_FILE"
+          # Ten bot od LinuxDil ma plik startowy o nazwie bot.py
+          # Uruchamiamy go bezpośrednio
+          python bot.py
