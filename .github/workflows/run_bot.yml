@@ -2,8 +2,8 @@ name: Hanafuda-Auto-Collector
 
 on:
   schedule:
-    - cron: '0 */4 * * *' # Bot uruchomi się co 4 godziny
-  workflow_dispatch:      # Pozwala Ci uruchomić go ręcznie
+    - cron: '0 */4 * * *'
+  workflow_dispatch:
 
 jobs:
   run-bot:
@@ -20,6 +20,9 @@ jobs:
       - name: Install Dependencies
         run: |
           pip install requests colorama
+
+      - name: Create data.txt from Secret
+        run: echo "${{ secrets.HANA_TOKEN }}" > data.txt # Ta linia tworzy plik tymczasowo dla bota
 
       - name: Execute Bot
         run: python bot.py
