@@ -19,7 +19,7 @@ jobs:
 
       - name: Install All Dependencies
         run: |
-          npm install web3 axios chalk colors fs readline-sync node-fetch@2 dotenv cloudflare-bypasser crypto-js
+          npm install web3@1.8.0 axios chalk@4 colors fs readline-sync node-fetch@2 dotenv cloudflare-bypasser crypto-js
 
       - name: Run Bot
         run: node index.js
