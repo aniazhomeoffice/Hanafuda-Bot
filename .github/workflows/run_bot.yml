@@ -19,15 +19,14 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pip install requests colorama
+          pip install requests colorama cloudscraper # Dodałem cloudscraper, często wymagany
 
       - name: Create data.txt
         run: echo "${{ secrets.HANA_TOKEN }}" > data.txt
 
-      - name: List Files
-        run: ls -R # To pokaże nam strukturę folderów w logach
-
       - name: Execute Bot
         run: |
-          FILE=$(find . -name "bot.py" | head -n 1)
-          python "$FILE"
+          # Szukamy pliku .py który zawiera logikę (pomijamy pliki konfiguracyjne)
+          MAIN_FILE=$(grep -l "import" *.py | head -n 1 || find . -name "main.py" || find . -name "index.py")
+          echo "Uruchamiam plik: $MAIN_FILE"
+          python "$MAIN_FILE"
