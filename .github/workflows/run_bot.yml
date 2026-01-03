@@ -1,0 +1,26 @@
+name: Hanafuda Auto Bot
+
+on:
+  schedule:
+    - cron: '0 */6 * * *' # Uruchamiaj co 6 godzin
+  workflow_dispatch: # Pozwala uruchomić ręcznie
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: ambassadors/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run bot
+        env:
+          MY_TOKEN: ${{ secrets.HANA_TOKEN }}
+        run: python bot.py
