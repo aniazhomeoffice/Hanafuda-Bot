@@ -17,9 +17,9 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install Dependencies
+      - name: Install All Dependencies
         run: |
-          npm install web3 axios colors fs readline-sync # Instalujemy wszystkie potrzebne moduły
+          npm install web3 axios chalk colors fs readline-sync node-fetch@2 dotenv cloudflare-bypasser crypto-js
 
       - name: Run Bot
         run: node index.js
