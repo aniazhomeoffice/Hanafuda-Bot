@@ -26,5 +26,6 @@ jobs:
           MY_TOKEN: ${{ secrets.HANA_TOKEN }}
         run: |
           echo "$MY_TOKEN" > private_keys.txt
-          node index.js
+          # Wpisujemy '1' (lub inną liczbę) automatycznie do bota
+          echo "1" | node index.js 
           rm private_keys.txt
