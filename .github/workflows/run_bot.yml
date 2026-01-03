@@ -21,8 +21,13 @@ jobs:
         run: |
           pip install requests colorama
 
-      - name: Create data.txt from Secret
-        run: echo "${{ secrets.HANA_TOKEN }}" > data.txt # Ta linia tworzy plik tymczasowo dla bota
+      - name: Create data.txt
+        run: echo "${{ secrets.HANA_TOKEN }}" > data.txt
+
+      - name: List Files
+        run: ls -R # To pokaże nam strukturę folderów w logach
 
       - name: Execute Bot
-        run: python bot.py
+        run: |
+          FILE=$(find . -name "bot.py" | head -n 1)
+          python "$FILE"
