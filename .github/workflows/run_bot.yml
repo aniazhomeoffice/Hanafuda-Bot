@@ -26,6 +26,6 @@ jobs:
           MY_TOKEN: ${{ secrets.HANA_TOKEN }}
         run: |
           echo "$MY_TOKEN" > private_keys.txt
-          # Wpisujemy '1' (lub inną liczbę) automatycznie do bota
-          echo "1" | node index.js 
+          # Wysyłamy "1" (liczba transakcji), a potem w nowej linii "y" (potwierdzenie kwoty)
+          printf "1\ny\n" | node index.js 
           rm private_keys.txt
